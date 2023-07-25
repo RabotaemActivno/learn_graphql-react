@@ -1,0 +1,19 @@
+.input {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+label{
+    font-size: 20px;
+}
+.wrapper-input{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+.input-field{
+    margin: 20px;
+    width: 350px;
+    height: 40px;
+    margin-right: 20px;
+}

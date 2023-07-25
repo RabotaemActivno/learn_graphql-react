@@ -1,26 +1,73 @@
+import { Input } from './Input/Index';
+import { useState, useEffect } from 'react'
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import { makeRequest } from './services';
+import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
+import { ListData } from './ListData/index';
+
+export type DataType = {
+  id: string;
+  title: string;
+  completed: boolean
+}[] | null
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+  const [data, setData] = useState<DataType>(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await makeRequest(`query Todos {
+          todos{
+            data {
+              id
+              title
+              completed
+              user {
+                name
+                address{
+                  city
+                }
+              }
+            }
+          }
+        }`)
+        setData(response.data.todos.data);
+
+      } catch (error) {
+        setData(null)
+      }
+    }
+    fetchData()
+
+  }, [])
+
+  
+
+return (
+  <div className="App">
+    <h1>GraphQl Todos</h1>
+    <div className='wrapper'>
+      <div className='app-wrapper-input'>
+        <Input
+          label='Добавление задачи'
+          buttonName='Добавить'
+        />
+        <Input
+          label='Поиск задачи'
+          buttonName='Найти'
+        />
+      </div>
+      <br />
+      <div className='list'>
+        {data ? <ListData data={data}/> : <div className='spinner'><CircularProgress/></div>}
+      </div>
     </div>
-  );
+  </div>
+);
 }
 
 export default App;
+//  
