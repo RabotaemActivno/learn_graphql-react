@@ -5,6 +5,7 @@ import './App.css'
 import { makeRequest } from './services';
 import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
 import { ListData } from './ListData/index';
+import { addTaskRequest } from './services';
 
 export type DataType = {
   id: string;
@@ -15,6 +16,8 @@ export type DataType = {
 function App() {
 
   const [data, setData] = useState<DataType>(null)
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,8 +45,22 @@ function App() {
     }
     fetchData()
 
-  }, [])
+  }, [addTaskRequest])
 
+
+  async function addTaskRequest(addTaskValue: string) {
+    if (addTaskValue) {
+        const newTaskQuery = `mutation CreateTodo {
+            createTodo(input: {title: '${addTaskValue}', completed: false}) {
+                title
+                completed
+                id
+            }
+        }`;
+        
+      await makeRequest(newTaskQuery)
+    }
+}
   
 
 return (
@@ -52,6 +69,7 @@ return (
     <div className='wrapper'>
       <div className='app-wrapper-input'>
         <Input
+          addTask={addTaskRequest}
           label='Добавление задачи'
           buttonName='Добавить'
         />

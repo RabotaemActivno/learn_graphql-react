@@ -13,5 +13,15 @@ export const makeRequest = (query: string) => {
 }   
 
 export const addTaskRequest = (addTaskValue: string) => {
-    if (addTaskValue) {}
+    if (addTaskValue) {
+        const newTaskQuery = `mutation CreateTodo {
+            createTodo(input: {title: '${addTaskValue}', completed: false}) {
+                title
+                completed
+                id
+            }
+        }`;
+        
+        return makeRequest(newTaskQuery)
+    }
 }
