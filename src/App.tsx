@@ -5,7 +5,6 @@ import './App.css'
 import { makeRequest } from './services';
 import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
 import { ListData } from './ListData/index';
-import { addTaskRequest } from './services';
 
 export type DataType = {
   id: string;
@@ -45,7 +44,7 @@ function App() {
     }
     fetchData()
 
-  }, [addTaskRequest])
+  }, [])
 
 
   async function addTaskRequest(addTaskValue: string) {

@@ -13,6 +13,8 @@ type PropsType = {
 export const Input = ({addTask, label, buttonName }: PropsType) => {
 
     const [value, setValue] = useState<string>('')
+    console.log(value);
+    
 
     return (
         <div className='input'>
